@@ -66,6 +66,16 @@ def _side_expander(
     return expand
 
 
+def _is_border_width(token: str, ratios: dict[str, tuple[str, float]]) -> bool:
+    token = token.lower()
+    # Keywords such as "thin", "medium", "thick", "none"
+    if token in ratios:
+        return True
+    # A number followed by a unit, such as "1px" or "1.5pt"
+    match = re.match(r"^[+-]?(\d+\.?\d*|\.\d+)([a-z%]+)$", token)
+    return match is not None and match.group(2) in ratios
+
+
 def _border_expander(
     side: str = "",
 ) -> Callable[[CSSResolver, str, str], Generator[tuple[str, str]]]:
@@ -116,7 +126,7 @@ def _border_expander(
         for token in tokens:
             if token.lower() in self.BORDER_STYLES:
                 border_declarations[f"border{side}-style"] = token
-            elif any(ratio in token.lower() for ratio in self.BORDER_WIDTH_RATIOS):
+            elif _is_border_width(token, self.BORDER_WIDTH_RATIOS):
                 border_declarations[f"border{side}-width"] = token
             else:
                 border_declarations[f"border{side}-color"] = token

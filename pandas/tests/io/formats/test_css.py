@@ -326,3 +326,27 @@ def test_atomize_preserve_quoted_case(style, expected):
     resolve = CSSResolver()
     res = resolve(style)
     assert res == expected
+
+
+@pytest.mark.parametrize(
+    "color",
+    [
+        "indigo",
+        "aqua",
+        "linen",
+        "mintcream",
+        "turquoise",
+        "pink",
+        "lemonchiffon",
+        "mediumblue",
+    ],
+)
+def test_border_shorthand_named_color_with_unit_substring(color):
+    # GH#71305
+    resolve = CSSResolver()
+    result = resolve(f"border-top: 1px solid {color}")
+    assert result == {
+        "border-top-color": color,
+        "border-top-style": "solid",
+        "border-top-width": "0.750000pt",
+    }
