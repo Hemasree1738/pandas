@@ -532,7 +532,7 @@ Styler
 - Bug in :meth:`.Styler.to_excel` applying styles to the wrong columns when ``columns`` selects or reorders columns (:issue:`42276`)
 - Bug in :meth:`.Styler.to_excel` where CSS ``border`` shorthand with named colors such as ``indigo`` or ``aqua`` lost its color and width (:issue:`71305`)
 - Bug in :meth:`.Styler.to_html` where Chrome and other Chromium-based browsers did not apply a style shared by more than 8192 cells to the cells beyond the first 8192 (:issue:`40913`)
--
+
 
 Other
 ^^^^^
